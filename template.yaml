@@ -7,7 +7,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: app.lambda_handler
-      Runtime: python3.13      # Ubuntu 22.04+ default
+      Runtime: python3.10      # Ubuntu 22.04+ default
       CodeUri: src/
       Timeout: 5
       MemorySize: 128
