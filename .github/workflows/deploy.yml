@@ -1,0 +1,33 @@
+name: SAM Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install AWS SAM CLI
+        run: |
+          pip install pipx
+          pipx install aws-sam-cli
+          sam --version
+
+      - name: Build SAM project
+        run: sam build
+
+      - name: Deploy SAM project
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
