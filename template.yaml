@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Basic SAM Serverless API with Outputs
+
+Resources:
+  HelloFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.13      # Ubuntu 22.04+ default
+      CodeUri: src/
+      Timeout: 5
+      MemorySize: 128
+      Events:
+        HelloApi:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get
+
+Outputs:
+  HelloApi:
+    Description: "API Gateway endpoint URL for HelloFunction"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello"
+
